@@ -5,6 +5,11 @@ def main():
     probA, probB, n = getInputs()
     winsA, winsB = simNGames(n, probA, probB)
     printSummary(winsA, winsB)
+    response = input("Play again? ")
+    if response:
+        main()
+    else:
+        return
 
 def printIntro():
     print("This program simulates a game of racquetball between two")
@@ -36,23 +41,21 @@ def simOneGame(probA, probB):
     # Simulates n games of racquetball between players whose
     #   abilities are represented by the probability of winning a serve
     # Returns number of wins for A and B
-    serving = "B"
+    serving = True
     scoreA = 0
     scoreB = 0
     while not gameOver(scoreA, scoreB):
-        if serving == "A":
-            print(serving)
+        if serving:
             if random.randint(0, 100) < probA:
                 scoreA = scoreA + 1
             else:
-                serving = "B"
+                serving = False
         else:
-            print(serving)
             if random.randint(0, 100) < probB:
                 scoreB = scoreB + 1
             else:
-                serving = "A"
-        return scoreA, scoreB
+                serving = True
+    return scoreA, scoreB
 
 def gameOver(a, b):
     # a and b represent scores for racquetball game
